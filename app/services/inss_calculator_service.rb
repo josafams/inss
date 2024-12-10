@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class InssCalculator
+class InssCalculatorService
   # 1st range: Up to 1,412.00 - 7.5%
   # 2nd range: 1,412.01 to 2,666.68 - 9%
   # 3rd range: 2,666.69 to 4,000.03 - 12%
