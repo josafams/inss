@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -9,5 +11,4 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :contacts, allow_destroy: true
-
 end

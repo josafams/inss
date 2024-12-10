@@ -1,0 +1,28 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-capybara
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion:
+    2.6.5
+  Include:
+    - "**/*.rb"
+  Exclude:
+    - "bin/*"
+    - "db/schema.rb"
+    - "db/migrate/*"
+    - "**/tmp/**/*"
+    - "**/templates/**/*"
+    - "**/vendor/**/*"
+    - "**/node_modules/**/*"
+    - config/**/*
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 20
