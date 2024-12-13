@@ -43,6 +43,11 @@ Certifique-se de ter o Docker e o Docker Compose instalados na sua máquina.
 
    ```
 
+4. **CI/CD:**  
+  Existe um pequeno arquivo de CI no projeto
+  ```  
+  cat .github/workflows/test.yml 
+  ```
 ---
 
 ## Comandos úteis
@@ -72,3 +77,9 @@ Para parar e remover os containers:
 ```bash
 docker-compose down
 ```
+
+### Arquitetura
+
+Foi utilizada a abordagem de **Service Object**, seguindo o princípio descrito no artigo [Refactor Ruby on Rails Service Objects](https://www.honeybadger.io/blog/refactor-ruby-rails-service-object/). Essa implementação foi realizada de forma mais minimalista (*bare metal*), sem o uso de gemas ou bibliotecas externas.
+
+Embora existam outras formas de implementar essa arquitetura, como o uso de gemas específicas, um exemplo seria o [Trailblazer](https://trailblazer.to/2.1/docs/trailblazer/).
