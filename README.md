@@ -25,7 +25,7 @@ Certifique-se de ter o Docker e o Docker Compose instalados na sua máquina.
 
 1. **Clone o repositório:**  
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone https://github.com/josafams/inss
    cd desafio_inss
    ```
 
