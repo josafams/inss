@@ -15,9 +15,15 @@
     </nav>
 
     <div class="container my-4">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Bem-vindo ao Dashboard</h1>
+      <h1>Bem-vindo ao Dashboard</h1>
+      <% if notice.present? %>
+          <div class="alert alert-info" role="alert">
+            <%= notice %>
+          </div>
+        <% end %>
+      <div class="d-flex justify-content-between  mb-4">
         <%= link_to 'Ver Proponentes', proponents_path, class: "btn btn-primary" %>
+        <%= link_to 'Exportar CSV', dashboard_export_csv_path, class: "btn btn-primary" %>
       </div>
 
       <div class="row g-4">

@@ -3,5 +3,5 @@
 class Contact < ApplicationRecord
   belongs_to :proponent
 
-  enum contact_type: { telefone_residencial: 0, celular: 1, whatsapp: 2, email: 3 }
+  enum contact_type: { telefone_residencial: 'telefone_residencial', celular: 'celular', whatsapp: 'celular', email: 'email' }
 end

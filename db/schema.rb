@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_12_233020) do
+ActiveRecord::Schema.define(version: 2024_12_13_105515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,8 +41,14 @@ ActiveRecord::Schema.define(version: 2024_12_12_233020) do
     t.string "name"
     t.string "document"
     t.date "birthday"
-    t.bigint "salary"
-    t.bigint "discount_inss"
+    t.float "salary"
+    t.float "discount_inss"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tests", force: :cascade do |t|
+    t.string "n"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

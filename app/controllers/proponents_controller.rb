@@ -19,9 +19,10 @@ class ProponentsController < ApplicationController
 
   def create
     @result_set = CreateProponentService.call(proponent_params)
+    @proponent = @result_set.payload[:proponent]
 
     if @result_set.success?
-      redirect_to @result_set.payload, notice: 'Proponent criado com sucesso.'
+      redirect_to @proponent, notice: 'Proponent criado com sucesso.'
     else
       render :new
     end
@@ -29,9 +30,10 @@ class ProponentsController < ApplicationController
 
   def update
     @result_set = UpdateProponentService.call(params[:id], proponent_params)
+    @proponent = @result_set.payload[:proponent]
 
     if @result_set.success?
-      redirect_to @result_set.payload, notice: 'Proponent atualizado com sucesso.'
+      redirect_to @proponent, notice: 'Proponent atualizado com sucesso.'
     else
       render :edit
     end
@@ -50,7 +52,7 @@ class ProponentsController < ApplicationController
   private
 
   def proponent_params
-    params.require(:Proponent).permit(:name, :document, :birthday, :salary,
+    params.require(:proponent).permit(:name, :document, :birthday, :salary,
                                       addresses_attributes: %i[id public_place number neighborhood city state zip_code _destroy],
                                       contacts_attributes: %i[id contact_type value _destroy])
   end

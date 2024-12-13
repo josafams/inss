@@ -9,7 +9,11 @@
 
     <div class="col-md-6">
       <%= form.label :contact_type, class: "form-label" %>
-      <%= form.text_field :contact_type, class: "form-control" %>
+      <%= form.select :contact_type, Contact.contact_types.keys.map { |key| [key.humanize, key] }, 
+                  { include_blank: true }, 
+                  { class: "form-control" } %>
+
+      <!-- Obvio que dependendo deveria ter umas MASK adequada, mas como isso é uma POC rápida eu skipei -->
     </div>
   </div>
 

@@ -2,8 +2,8 @@
 
 class Proponent < ApplicationRecord
   scope :by_discount_inss_count, lambda {
-    select('ROUND(discount_inss::numeric, 2) AS discount_inss, COUNT(*) AS count')
-      .group('ROUND(discount_inss::numeric, 2)')
+    select('discount_inss, COUNT(*) AS count')
+      .group('discount_inss')
   }
 
   MAX_PROPONENT_PER_PAGE = 5

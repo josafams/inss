@@ -16,8 +16,8 @@ class UpdateProponentService
 
     @proponent.discount_inss = @inss_calculator_service.call(@proponent.salary)
 
-    return OpenStruct.new({ success?: true, payload: @proponent, errors: [] }) if @proponent.save
+    return OpenStruct.new({ success?: true, payload: { proponent: @proponent }, errors: [] }) if @proponent.save
 
-    OpenStruct.new({ success?: false, payload: @proponent, errors: @proponent.errors })
+    OpenStruct.new({ success?: false, payload: { proponent: @proponent }, errors: @proponent.errors })
   end
 end

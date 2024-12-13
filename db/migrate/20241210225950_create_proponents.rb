@@ -6,8 +6,8 @@ class CreateProponents < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :document
       t.date :birthday
-      t.bigint :salary
-      t.bigint :discount_inss
+      t.float :salary
+      t.float :discount_inss
 
       t.timestamps
     end

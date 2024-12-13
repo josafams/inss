@@ -44,7 +44,7 @@ RSpec.describe UpdateProponentService do
         expect(proponent_instance).to have_received(:save)
 
         expect(result.success?).to be true
-        expect(result.payload).to eq(proponent_instance)
+        expect(result.payload[:proponent]).to eq(proponent_instance)
         expect(result.errors).to be_empty
       end
     end
@@ -72,7 +72,7 @@ RSpec.describe UpdateProponentService do
         expect(proponent_instance).to have_received(:save)
 
         expect(result.success?).to be false
-        expect(result.payload).to eq(proponent_instance)
+        expect(result.payload[:proponent]).to eq(proponent_instance)
         expect(result.errors).to eq(["Name can't be blank"])
       end
     end
