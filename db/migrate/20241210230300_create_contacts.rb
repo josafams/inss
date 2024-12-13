@@ -4,7 +4,7 @@ class CreateContacts < ActiveRecord::Migration[5.2]
   def change
     create_table :contacts do |t|
       t.references :proponent, foreign_key: true
-      t.string :type
+      t.string :contact_type
       t.string :value
 
       t.timestamps

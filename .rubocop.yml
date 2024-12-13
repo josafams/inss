@@ -26,3 +26,18 @@ Style/Documentation:
 Metrics/MethodLength:
   CountComments: false
   Max: 20
+
+RSpec/ExampleLength:
+  Max: 40
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 130
+
+Style/OpenStructUse:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Max: 10

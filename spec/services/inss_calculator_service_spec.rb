@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe InssCalculatorService do
@@ -88,7 +90,7 @@ RSpec.describe InssCalculatorService do
 
     context 'when salary exceeds the highest range limit' do
       it 'calculates using the top range limit for a salary above the last range' do
-        salary = 10000.00
+        salary = 10_000.00
         first_range = 1412.00 * 0.075
         second_range = (2666.68 - 1412.00) * 0.09
         third_range = (4000.03 - 2666.68) * 0.12

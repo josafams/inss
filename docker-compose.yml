@@ -1,16 +1,67 @@
-version: '3'
-services:
-  web:
-    build: .
-    volumes:
-      - .:/app
-    command: bundle exec rails s
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
 
-  db:
-    image: postgres:16
+x-shared-config:
+  &shared-config
+  build:
+    context: .
+    dockerfile: Dockerfile
+  stdin_open: true
+  tty: true
+  environment:
+    - HOST=localhost:3000
+    - POSTGRES_HOST=postgres
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - WEB_CONCURRENCY=1
+    - SIDEKIQ_REDIS_URL=redis://redis:6379
+    - SIDEKIQ_REDIS_SIDEKIQ_DB=1
+    - GITHUB_KEY=${GITHUB_KEY}
+    - SIDEKIQ_USER=user
+    - SIDEKIQ_PASSWORD=123
+  volumes:
+    - .:/app:cached
+    - rails_cache:/app/tmp/cache
+    - bundle:/usr/local/bundle
+  depends_on:
+    - postgres
+    - redis
+  entrypoint: ./entrypoint.sh
+
+services:
+  rails:
+    <<: *shared-config
+    command: rails server -b 0.0.0.0
+    depends_on:
+      - sidekiq
+    ports:
+      - 8080:3000
+
+  sidekiq:
+    <<: *shared-config
+    command: bundle exec sidekiq 
+
+  postgres:
+    image: postgres:14
+    volumes:
+      - postgres:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5555:5432
+    healthcheck:
+      test: pg_isready -U $${POSTGRES_USER} -h $${POSTGRES_HOST}
+      interval: 5s
+
+  redis:
+    image: redis
+    command: "redis-server"
+    volumes:
+      - redis:/data
+
+volumes:
+  postgres:
+  bundle:
+  rails_cache:
+  redis:
+  gem_cache:

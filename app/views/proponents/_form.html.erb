@@ -1,0 +1,100 @@
+<div class="form">
+  <%= form_with(model: proponent, local: true, html: { class: "needs-validation" }) do |form| %>
+    <% if proponent.errors.any? %>
+      <div id="error_explanation" class="alert alert-danger">
+        <h2><%= pluralize(proponent.errors.count, "error") %> prohibited this proponent from being saved:</h2>
+        <ul>
+          <% proponent.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <%= form.label :name, class: "form-label" %>
+        <%= form.text_field :name, class: "form-control" %>
+      </div>
+
+      <div class="col-md-6">
+        <%= form.label :document, class: "form-label" %>
+        <%= form.text_field :document, class: "form-control" %>
+      </div>
+
+      <div class="col-md-3">
+        <%= form.label :birthday, class: "form-label" %>
+        <%= form.date_field :birthday, class: "form-control" %>
+      </div>
+
+      <div class="col-md-3">
+        <%= form.label :salary, class: "form-label" %>
+        <%= form.number_field :salary, class: "form-control" %>
+      </div>
+    </div>
+
+    <div >
+        <p id='calculate_inss'> </p>   
+    </div>
+
+    <div class="mb-3">
+      <%= link_to_add_association 'Adicionar Endereço', form, :addresses, form_name: 'form',
+        'data-association-insertion-method' => 'prepend', 
+        'data-association-insertion-node' => "#addresses-proponent ol",
+        class: "btn btn-secondary" %>
+    </div>
+
+    <fieldset id="addresses-proponent" class="mb-3">
+      <ol class="list-unstyled">
+        <%= form.fields_for :addresses do |address| %>
+          <%= render partial: 'address_fields', locals: { form: address } %>
+        <% end %>
+      </ol>
+    </fieldset>
+
+    <div class="mb-3">
+      <%= link_to_add_association 'Adicionar contato', form, :contacts, form_name: 'form',
+        'data-association-insertion-method' => 'prepend', 
+        'data-association-insertion-node' => "#contacts-proponent ol",
+        class: "btn btn-secondary" %>
+    </div>
+
+    <fieldset id="contacts-proponent" class="mb-3">
+      <ol class="list-unstyled">
+        <%= form.fields_for :contacts do |contact| %>
+          <%= render partial: 'contact_fields', locals: { form: contact } %>
+        <% end %>
+      </ol>
+    </fieldset>
+
+    <div class="actions">
+      <%= form.submit class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
+
+<script> 
+  const getInss = function(salary) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch(`/proponents/calculate_inss?salary=${salary}`, {
+      headers: {
+        'X-CSRF-Token': csrfToken,
+        'Accept': 'application/json'
+      },
+      credentials: 'same-origin' 
+    })
+      .then(response => response.json())
+      .then(data => {
+        const paragraph = document.getElementById('calculate_inss');
+        paragraph.innerHTML=data.discount_inss
+      }
+    );
+  }
+
+  const inputSalary = document.getElementById('proponent_salary');
+  inputSalary.addEventListener('input', (event) => {
+    getInss(event.target.value);
+  });
+</script>

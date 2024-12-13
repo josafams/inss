@@ -1,0 +1,103 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Meu Dashboard</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Você pode adicionar outros links aqui -->
+          </ul>
+        
+        </div>
+      </div>
+    </nav>
+
+    <div class="container my-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Bem-vindo ao Dashboard</h1>
+        <%= link_to 'Ver Proponentes', proponents_path, class: "btn btn-primary" %>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              Desconto INSS por faixa
+            </div>
+            <div class="card-body">
+              <canvas id="doughnutChart" width="400" height="400"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <table class="table table-striped table-bordered table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Taxa</th>
+            <th>Qtd proponentes</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @groups_calculate_inss.each do |group_calculate_inss| %>
+            <tr>
+              <td><%= group_calculate_inss.discount_inss %></td>
+              <td><%= group_calculate_inss.count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      </div>
+    </div>
+
+    <script>
+    function generateHexColors(n) {
+      const colors = [];
+      for (let i = 0; i < n; i++) {
+        const randomNum = Math.floor(Math.random() * 0xFFFFFF);
+        const hexString = randomNum.toString(16).padStart(6, '0');
+        const color = `#${hexString}`;
+        colors.push(color);
+      }
+      return colors;
+      // normalmente isso deveria ser uma paleta de cores!
+    }
+  
+    document.addEventListener("DOMContentLoaded", function() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  
+        fetch(`/proponents/group_calculate_inss`, {
+          headers: {
+            'X-CSRF-Token': csrfToken,
+            'Accept': 'application/json'
+          },
+          credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+          const chartData = data.payload;
+
+          let doughnutData = {
+            labels: chartData.map(item => item.discount_inss),
+            datasets: [{
+              label: 'My First Dataset',
+              data: chartData.map(item => item.count),
+              backgroundColor: generateHexColors(chartData.length),
+              hoverOffset: 4
+            }]
+          };
+  
+          const doughnutConfig = {
+            type: 'doughnut',
+            data: doughnutData,
+          };
+  
+          const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+          new Chart(doughnutCtx, doughnutConfig);
+        });
+    });
+  </script>
+  
