@@ -21,9 +21,9 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   database: desafio_inss
-  host: <%= ENV['POSTGRES_HOST'] %>
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  host: <%= ENV['POSTGRES_HOST'] || 'localhost' %>
+  username: <%= ENV['POSTGRES_USER'] || 'postgres' %>
+  password: <%= ENV['POSTGRES_PASSWORD'] || 'postgres' %>
 
 development:
   <<: *default
