@@ -11,9 +11,9 @@ class DashboardController < ApplicationController
     redirect_to root_path, notice: 'Gerando relátorio, cheque seu email'
   end
 
-  private 
+  private
 
-    def filters 
-      {} # sanatização em params e etc.
-    end
+  def filters
+    {} # sanatização em params e etc.
+  end
 end
